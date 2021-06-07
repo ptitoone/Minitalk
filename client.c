@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   char_to_binary.c                                   :+:      :+:    :+:   */
+/*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 08:38:51 by akotzky           #+#    #+#             */
-/*   Updated: 2021/06/04 11:30:04 by akotzky          ###   ########.fr       */
+/*   Updated: 2021/06/07 23:33:13 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ int main(int ac, char **av)
 		char_to_binary_string(binary_str, av[2][i]);
 		while (binary_str[j])
 		{
-			send_signal(av[1], binary_str[j]);
+			usleep(50);
+			send_signal(atoi(av[1]), binary_str[j]);
 			j++;
 		}
 		i++;
