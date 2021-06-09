@@ -6,7 +6,7 @@
 /*   By: akotzky <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 10:47:36 by akotzky           #+#    #+#             */
-/*   Updated: 2021/06/07 23:19:59 by akotzky          ###   ########.fr       */
+/*   Updated: 2021/06/08 21:20:25 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,26 +49,29 @@ void	handle_signal(int signal)
 int	main()
 {
 	pid_t	pid;
-//	struct sigaction newDisp;
-//	struct sigaction oldDisp;
-	
-//	newDisp.sa_handler = handle_signal;
-//	sigemptyset(&newDisp.sa_mask);
-//	newDisp.sa_flags = 0;
-//	sigaction(SIGUSR1, NULL, &oldDisp);
-//	if (oldDisp.sa_handler != SIG_IGN)
-//		sigaction(SIGUSR1, &newDisp, NULL);
-//	sigaction(SIGUSR2, NULL, &oldDisp);
-//	if (oldDisp.sa_handler != SIG_IGN)
-//		sigaction(SIGUSR2, &newDisp, NULL);
+	struct sigaction newDisp1;
+	struct sigaction newDisp2;
+  
+	newDisp1.sa_handler = handle_signal;
+	newDisp2.sa_handler = handle_signal;
+	sigemptyset(&newDisp1.sa_mask);
+	sigemptyset(&newDisp2.sa_mask);
+
+	sigaddset(&newDisp1.sa_mask, SIGUSR2);
+	sigaddset(&newDisp2.sa_mask, SIGUSR1);
+
+	newDisp1.sa_flags = SA_RESTART;
+	newDisp2.sa_flags = SA_RESTART;
+	sigaction(SIGUSR1, &newDisp1, NULL);
+	sigaction(SIGUSR2, &newDisp2, NULL);
 
 	pid = getpid();
 
 	printf("%i\n", (int)pid);
 	printf("Waiting for string income...\n\n");
-	signal(SIGUSR1, handle_signal);
-	signal(SIGUSR2, handle_signal);
+//	signal(SIGUSR1, handle_signal);
+//	signal(SIGUSR2, handle_signal);
 	while (1)
-		;
+		pause();
 	return (0);
 }
