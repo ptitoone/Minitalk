@@ -6,7 +6,7 @@
 #    By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/10 11:35:52 by akotzky           #+#    #+#              #
-#    Updated: 2021/06/10 22:48:37 by akotzky          ###   ########.fr        #
+#    Updated: 2021/06/11 11:29:57 by akotzky          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,12 @@ fclean : clean
 	@rm -rf incls/libft.h incls/ft_printf.h incls/get_next_line.h $(NAME_SRV) $(NAME_CLI) $(LIBFT)
 	@make -C ./libft clean
 
-re : fclean all
-	@echo "- Recompiling Minitalk project..."
-	@make -C ./libft re
+libftclean : 
+	@make -C ./libft fclean
+
+echore :
+	@printf "\e[1;32m"
+	@echo "\n- Recompiling Minitalk project..."
+	@printf "\e[0m"
+
+re : fclean libftclean echore all
