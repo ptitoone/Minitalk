@@ -6,7 +6,7 @@
 /*   By: akotzky <akotzky@student.42nice.f          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 10:47:36 by akotzky           #+#    #+#             */
-/*   Updated: 2021/06/10 22:14:25 by akotzky          ###   ########.fr       */
+/*   Updated: 2021/06/14 13:15:50 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,17 @@ void	binary_to_stdout(int count, int base)
 void	handle_sigaction(int sig, siginfo_t *info, void *uap)
 {
 	static int	count;
+	void *rien;
 
+	//usleep(20);
 	if (count == 0 && uap)
 		count = 8;
 	if (sig == SIGUSR1)
 		binary_to_stdout(count--, 0);
 	else if (sig == SIGUSR2)
 		binary_to_stdout(count--, 1);
-	usleep(50);
-	kill(info->si_pid, SIGUSR1);
+	rien = (void*)info;
+//	kill(info->si_pid, SIGUSR1);
 }
 
 int	main(void)
