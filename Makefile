@@ -6,7 +6,7 @@
 #    By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/10 11:35:52 by akotzky           #+#    #+#              #
-#    Updated: 2021/06/14 15:05:40 by akotzky          ###   ########.fr        #
+#    Updated: 2021/06/14 18:52:47 by akotzky          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,22 +40,22 @@ bonus : $(LIBFT) $(NAME_SRVB) $(NAME_CLIB)
 all : $(LIBFT) $(NAME_SRV) $(NAME_CLI)
 
 $(NAME_SRV) : $(OBJ_SRV)
-	@echo "- Assembling Minitalk object files..."
-	@echo "- Linking Minitalk server files..."
+	@$(info - Assembling Minitalk object files...)
+	@$(info - Linking Minitalk server files...)
 	@$(CC) $(CFLAGS) $(OBJ_SRV) -L . -lft -o $(NAME_SRV)
 
 $(NAME_CLI) : $(OBJ_CLI)
-	@echo "- Assembling Minitalk object files..."
-	@echo "- Linking Minitalk server files..."
+	@$(info - Assembling Minitalk object files...)
+	@$(info - Linking Minitalk server files...")
 	@$(CC) $(CFLAGS) $(OBJ_CLI) -L . -lft -o $(NAME_CLI)
 
 $(NAME_SRVB) : $(OBJ_SRVB)
-	@echo "- Linking Minitalk client bonus files..."
-	@$(CC) $(CFLAGS) $(OBJ_SRVB) -L . -lft -o $(NAME_SRVB)
+	@$(info - Linking Minitalk client bonus files...)
+	@$(CC) $(CFLAGS) $(OBJ_SRVB) -L . -lft -o $(NAME_SRV)
 
 $(NAME_CLIB) : $(OBJ_CLIB)
-	@echo "- Linking Minitalk client bonus files..."
-	@$(CC) $(CFLAGS) $(OBJ_CLIB) -L . -lft -o $(NAME_CLIB)
+	@$(info - Linking Minitalk client bonus files...)
+	@$(CC) $(CFLAGS) $(OBJ_CLIB) -L . -lft -o $(NAME_CLI)
 
 $(LIBFT) :
 	@make -C ./libft all
@@ -68,11 +68,11 @@ $(LIBFT) :
 	@$(CC) $(CFLAGS) $(INCLS) -c $< -o $@
 
 clean :
-	@echo "- Cleaning Minitalk object files..."
+	@$(info - Cleaning Minitalk object files...)
 	@rm -rf $(OBJ_SRV) $(OBJ_CLI) $(OBJ_SRVB) $(OBJ_CLIB)
 
 fclean : clean
-	@echo "- Cleaning Minitalk header, binary and library files..."
+	@$(info - Cleaning Minitalk header, binary and library files...)
 	@rm -rf incls/libft.h incls/ft_printf.h incls/get_next_line.h $(NAME_SRV) $(NAME_CLI) $(NAME_SRVB) $(NAME_CLIB) $(LIBFT)
 	@make -C ./libft clean
 

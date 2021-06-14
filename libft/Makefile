@@ -6,7 +6,7 @@
 #    By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/10 21:01:08 by akotzky           #+#    #+#              #
-#    Updated: 2021/06/10 22:45:12 by akotzky          ###   ########.fr        #
+#    Updated: 2021/06/14 18:54:39 by akotzky          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,23 +22,23 @@ INCLS	=	-Iincls
 all : $(NAME)
 
 $(NAME) : echobjs $(OBJS)
-	@echo "- Archiving Libft object files..."
+	@$(info - Archiving Libft object files...)
 	@ar rcs $(NAME) $(OBJS)
 
 echobjs :
-	@echo "- Assembling Libft object files..."
+	@$(info - Assembling Libft object files...)
 
 %.o : %.c
 	@$(CC) $(CFLAGS) $(INCLS) -c $< -o $@
 
 clean :
-	@echo "- Cleaning Libft object files..."
+	@$(info - Cleaning Libft object files...)
 	@rm -rf $(OBJS)
 
 fclean : clean 
-	@echo "- Cleaning Libft library file..."
+	@$(info - Cleaning Libft library file...)
 	@rm -rf $(NAME)
 
 re : fclean all
-	@echo "- Rebuilding Libft library project..."
+	@$(info - Rebuilding Libft library project...)
 
