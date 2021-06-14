@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akotzky <akotzky@student.42nice.f          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 10:47:36 by akotzky           #+#    #+#             */
-/*   Updated: 2021/06/14 15:22:06 by akotzky          ###   ########.fr       */
+/*   Updated: 2021/06/14 14:55:07 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,18 @@ void	binary_to_stdout(int count, int base)
 	}
 }
 
-void	handle_sigaction(int sig/*, siginfo_t *info, void *uap*/)
+void	handle_sigaction(int sig, siginfo_t *info, void *uap)
 {
 	static int	count;
 
-	usleep(60);
-	if (count == 0)
+	if (count == 0 && uap)
 		count = 8;
 	if (sig == SIGUSR1)
 		binary_to_stdout(count--, 0);
 	else if (sig == SIGUSR2)
 		binary_to_stdout(count--, 1);
+	usleep(50);
+	kill(info->si_pid, SIGUSR1);
 }
 
 int	main(void)
@@ -63,18 +64,19 @@ int	main(void)
 	struct sigaction	newDisp2;
 
 	pid = getpid();
-	newDisp1.sa_handler = &handle_sigaction;
-	newDisp2.sa_handler = &handle_sigaction;
-	newDisp1.sa_flags = SA_RESTART;
-	newDisp2.sa_flags = SA_RESTART;
-	sigemptyset(&newDisp1.sa_mask);
-	sigaddset(&newDisp1.sa_mask, SIGUSR1);
-	sigaddset(&newDisp2.sa_mask, SIGUSR2);
-	sigaction(SIGUSR1, &newDisp1, NULL);
-	sigaction(SIGUSR2, &newDisp2, NULL);
+	newDisp1.sa_sigaction = &handle_sigaction;
+	newDisp2.sa_sigaction = &handle_sigaction;
+	newDisp1.sa_flags = SA_SIGINFO;
+	newDisp2.sa_flags = SA_SIGINFO;
 	ft_printf("PID = %i\n", (int)pid);
 	ft_putstr_fd("Waiting for string income...\n\n", 1);
 	while (1)
-		;
+	{
+		sigemptyset(&newDisp1.sa_mask);
+		sigaddset(&newDisp1.sa_mask, SIGUSR1);
+		sigaddset(&newDisp2.sa_mask, SIGUSR2);
+		sigaction(SIGUSR1, &newDisp1, NULL);
+		sigaction(SIGUSR2, &newDisp2, NULL);
+	}
 	return (0);
 }
