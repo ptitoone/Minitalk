@@ -6,7 +6,7 @@
 /*   By: akotzky <akotzky@student.42nice.f          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 10:47:36 by akotzky           #+#    #+#             */
-/*   Updated: 2021/06/14 14:55:07 by akotzky          ###   ########.fr       */
+/*   Updated: 2021/06/16 07:24:22 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	handle_sigaction(int sig, siginfo_t *info, void *uap)
 		binary_to_stdout(count--, 0);
 	else if (sig == SIGUSR2)
 		binary_to_stdout(count--, 1);
-	usleep(50);
+	usleep(65);
 	kill(info->si_pid, SIGUSR1);
 }
 

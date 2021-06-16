@@ -6,7 +6,7 @@
 /*   By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 08:38:51 by akotzky           #+#    #+#             */
-/*   Updated: 2021/06/14 15:23:03 by akotzky          ###   ########.fr       */
+/*   Updated: 2021/06/16 07:52:29 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,12 @@ void	char_to_bin_str(int pid, char c)
 		ch = c;
 		ch = ch & mask;
 		c = c >> 1;
+		usleep(80);
 		if (ch == 0)
 			kill(pid, SIGUSR1);
 		if (ch == 1)
 			kill(pid, SIGUSR2);
-		usleep(380);
+		usleep(80);
 	}
 }
 
@@ -51,14 +52,14 @@ void	process_str(int pid, char *str)
 
 int	main(int ac, char **av)
 {
-	int		pid;
-	char	*str;
-	struct	sigaction sig_disp;
+	int					pid;
+	char				*str;
+	struct sigaction	action;
 
-	sig_disp.sa_handler = &handle_signal;
-	sig_disp.sa_flags = SA_RESTART;
-	sigaction(SIGUSR1, &sig_disp, NULL);
-	sigaddset(&sig_disp.sa_mask, SIGUSR1);
+	action.sa_handler = &handle_signal;
+	action.sa_flags = SA_RESTART;
+	sigaction(SIGUSR1, &action, NULL);
+	sigaddset(&action.sa_mask, SIGUSR1);
 	pid = ft_atoi(av[1]);
 	str = av[2];
 	if (ac != 3)

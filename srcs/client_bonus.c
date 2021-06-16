@@ -6,14 +6,14 @@
 /*   By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 08:38:51 by akotzky           #+#    #+#             */
-/*   Updated: 2021/06/14 14:55:12 by akotzky          ###   ########.fr       */
+/*   Updated: 2021/06/16 07:48:34 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include <signal.h>
-#include <libft.h>
+#include "libft.h"
 
 int	g_pause_flow = 0;
 
@@ -36,7 +36,7 @@ void	char_to_bin_str(int pid, char c)
 		ch = c;
 		ch = ch & mask;
 		c = c >> 1;
-		usleep(10);
+		usleep(30);
 		if (ch == 0)
 			kill(pid, SIGUSR1);
 		if (ch == 1)
@@ -58,12 +58,7 @@ int	main(int ac, char **av)
 {
 	int		pid;
 	char	*str;
-//	struct	sigaction sig_disp;
 
-//	sig_disp.sa_handler = &handle_signal;
-//	sig_disp.sa_flags = SA_RESTART;
-//	sigaction(SIGUSR1, &sig_disp, NULL);
-//	sigaddset(&sig_disp.sa_mask, SIGUSR1);
 	signal(SIGUSR1, handle_signal);
 	pid = ft_atoi(av[1]);
 	str = av[2];
