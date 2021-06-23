@@ -6,15 +6,15 @@
 /*   By: akotzky <akotzky@student.42nice.f          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 10:47:36 by akotzky           #+#    #+#             */
-/*   Updated: 2021/06/14 15:22:06 by akotzky          ###   ########.fr       */
+/*   Updated: 2021/06/16 07:54:19 by akotzky          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
-#include <libft.h>
-#include <ft_printf.h>
+#include "libft.h"
+#include "ft_printf.h"
 
 void	binary_to_stdout(int count, int base)
 {
@@ -43,11 +43,11 @@ void	binary_to_stdout(int count, int base)
 	}
 }
 
-void	handle_sigaction(int sig/*, siginfo_t *info, void *uap*/)
+void	handle_sigaction(int sig)
 {
 	static int	count;
 
-	usleep(60);
+	usleep(80);
 	if (count == 0)
 		count = 8;
 	if (sig == SIGUSR1)
@@ -59,19 +59,19 @@ void	handle_sigaction(int sig/*, siginfo_t *info, void *uap*/)
 int	main(void)
 {
 	pid_t				pid;
-	struct sigaction	newDisp1;
-	struct sigaction	newDisp2;
+	struct sigaction	action1;
+	struct sigaction	action2;
 
 	pid = getpid();
-	newDisp1.sa_handler = &handle_sigaction;
-	newDisp2.sa_handler = &handle_sigaction;
-	newDisp1.sa_flags = SA_RESTART;
-	newDisp2.sa_flags = SA_RESTART;
-	sigemptyset(&newDisp1.sa_mask);
-	sigaddset(&newDisp1.sa_mask, SIGUSR1);
-	sigaddset(&newDisp2.sa_mask, SIGUSR2);
-	sigaction(SIGUSR1, &newDisp1, NULL);
-	sigaction(SIGUSR2, &newDisp2, NULL);
+	action1.sa_handler = &handle_sigaction;
+	action2.sa_handler = &handle_sigaction;
+	action1.sa_flags = SA_RESTART;
+	action2.sa_flags = SA_RESTART;
+	sigemptyset(&action1.sa_mask);
+	sigaddset(&action1.sa_mask, SIGUSR1);
+	sigaddset(&action2.sa_mask, SIGUSR2);
+	sigaction(SIGUSR1, &action1, NULL);
+	sigaction(SIGUSR2, &action2, NULL);
 	ft_printf("PID = %i\n", (int)pid);
 	ft_putstr_fd("Waiting for string income...\n\n", 1);
 	while (1)

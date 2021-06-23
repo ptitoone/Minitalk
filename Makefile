@@ -6,7 +6,7 @@
 #    By: akotzky <akotzky@student.42nice.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/10 11:35:52 by akotzky           #+#    #+#              #
-#    Updated: 2021/06/23 12:38:17 by akotzky          ###   ########.fr        #
+#    Updated: 2021/06/23 12:52:25 by akotzky          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,12 +64,12 @@ $(LIBFT) :
 	@$(info - Assembling Minitalk $< to $@ file...)
 	@$(CC) $(CFLAGS) $(INCLS) -c $< -o $@
 
-clean :
+clean : libftclean
 	@$(info - Cleaning Minitalk object files...)
 	@rm -rf $(OBJ_SRV) $(OBJ_CLI) $(OBJ_SRVB) $(OBJ_CLIB)
 	@make -C ./libft clean
 
-fclean : clean
+fclean : clean libftfclean
 	@$(info - Cleaning Minitalk header, binary and library files...)
 	@rm -rf incls/libft.h incls/ft_printf.h incls/get_next_line.h $(NAME) $(NAME_CLI) $(LIBFT) $(BONUS_MADE)
 	@$(info - Cleaning Libft library file...)
